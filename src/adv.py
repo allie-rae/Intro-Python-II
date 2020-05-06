@@ -44,9 +44,14 @@ player1 = Player("Allie", room['outside'])
 
 
 while True:
-    answer = input(f"{player1.name}'s location: {player1.current_room.name}. {player1.current_room.description} \nChoose: n, s, e, w: ")
-    player1.move(answer)
-    
+    answer = input(
+        f"{player1.name}'s location: {player1.current_room.name}. {player1.current_room.description} \nChoose: n, s, e, w: ")
+    if answer == "q":
+        print("Thank you for playing!")
+        quit()
+    else:
+        player1.move(answer)
+
 
 # Write a loop that:
 #
