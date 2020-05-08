@@ -1,6 +1,7 @@
 import sys
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -35,6 +36,29 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
+# Declare all the items
+
+item = {
+    'stick': Item("stick", "A regular-looking stick."),
+    'pebble': Item("pebble", "A smooth, round pebble."),
+    'lantern': Item("lantern", "Somehow, the flame inside is still flickering."),
+    'coin': Item("coin", "A shimmering, golden coin."),
+    'beetle': Item("beetle", "Probably just wants to be left alone..."),
+    'lock': Item("lock", "A rusted, broken lock."),
+    'rug': Item("rug", "An old, dusty rug.")
+}
+
+# Put items into rooms
+
+room['outside'].items.append(item['stick'])
+room['outside'].items.append(item['pebble'])
+room['foyer'].items.append(item['coin'])
+room['foyer'].items.append(item['rug'])
+room['overlook'].items.append(item['lantern'])
+room['narrow'].items.append(item['beetle'])
+room['treasure'].items.append(item['lock'])
+
 #
 # Main
 #
@@ -44,15 +68,19 @@ player1 = Player("Allie", room['outside'])
 
 
 while True:
+    print(f"Items in room:")
+    for each in player1.current_room.items:
+            print(each.name)
     answer = input(
-        f"\n{player1.name}'s location: {player1.current_room.name}. {player1.current_room.description} \n\nChoose n, s, e, w: ")
-    if answer == "q":
-        print("\nThanks for playing!\n")
-        quit()
-    else:
+        f"\n{player1.name}'s location: {player1.current_room.name}. {player1.current_room.description} \n\nChoose n, s, e, w, i, q, take [item], drop [item]: ")
+    if len(answer) == 1:
         player1.move(answer)
+    else:
+        takeOrDrop = answer.split()[0]
+        itemName = answer.split()[1]
+        player1.take_drop(takeOrDrop, itemName)
 
-
+# print(player1.inventory)
 # Write a loop that:
 #
 # * Prints the current room name
